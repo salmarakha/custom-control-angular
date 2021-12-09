@@ -1,1 +1,12 @@
-<p>custom-control works!</p>
+<div class="container mt-5">
+  <div class="form-group" *ngFor="let control of controls, let i = index">
+    <label>{{ control.label.value }}</label>
+    <input
+      class="form-control"
+      [type]="control.input.type"
+      [placeholder]="control.input.placeholder || ''"
+      [required]="control.input.required" />
+    <button class="btn btn-danger" (click)="remove(i)">-</button>
+    <button class="btn btn-primary" (click)="add(i)">+</button>
+  </div>
+</div>
