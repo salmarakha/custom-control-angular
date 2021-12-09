@@ -17,15 +17,15 @@ export class AppComponent {
         placeholder: "Enter course name"
       }
     }
-    ,
-    {
-      label: { value: "Coursse" },
-      input: {
-        type: "text",
-        required: true,
-        placeholder: "Enter course name"
-      }
-    }
+    // ,
+    // {
+    //   label: { value: "Coursse" },
+    //   input: {
+    //     type: "text",
+    //     required: true,
+    //     placeholder: "Enter course name"
+    //   }
+    // }
   ];
 
   title = 'custom-control-task';
