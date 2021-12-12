@@ -2,18 +2,31 @@
 <!-- <p>Length of controls array in app {{ controls.length }}</p> -->
 
 <div class="container mt-5" [formGroup]="form">
-  <div class="form-group" *ngFor="let control of controls, let i = index">
-    <label>{{ control.label.value }}</label>
-    <input
-      class="form-control"
-      [type]="control.input.type"
-      [placeholder]="control.input.placeholder || ''"
-      [required]="control.input.required" 
-      [formControlName]="getFormControlName(i)" />
+  <div class="form-group" *ngFor="let group of controls, let i = index">
+    <ng-container *ngFor="let control of group, let k = index">
 
-    <!-- these refresh the page with every click -->
-    <!-- <button class="btn btn-danger" (click)="remove(i)" [disabled]="controls.length <= 1">-</button>
-    <button class="btn btn-primary" (click)="add(i)">+</button> -->
+      <label *ngIf="control.type === 'label'">{{ control.value }}</label>
+
+      <input
+        *ngIf="control.type === 'text'"
+        class="form-control"
+        [type]="control.type"
+        [placeholder]="control.placeholder || ''"
+        [required]="control.required"
+        [formControlName]="control.name" />
+
+      <select
+        *ngIf="control.type === 'select'"
+        class="form-control"
+        [formControlName]="control.name">
+        <!-- <option>-</option> -->
+        <ng-container *ngIf="control.options">
+          <ng-container *ngFor="let option of control.options">
+            <option [value]="option.value">{{ option.text }}</option>
+          </ng-container>
+        </ng-container>
+      </select>
+    </ng-container>
 
     <input type="button" class="btn btn-danger" (click)="remove(i)" [disabled]="controls.length <= 1" value="-">
     <input type="button" class="btn btn-primary" (click)="add(i)" value="+">
