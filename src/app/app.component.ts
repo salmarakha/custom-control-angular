@@ -8,25 +8,68 @@ import { InputControl } from './models/inputControl';
 })
 export class AppComponent {
 
-  inputControls: InputControl[] = [
-    {
-      label: { value: "Course" },
-      input: {
+  inputControls = [
+    [
+      {
+        type: "label",
+        value: "Course"
+      },
+      {
         type: "text",
+        name: "course",
         required: true,
         placeholder: "Enter course name"
-      }
-    }
-    // ,
-    // {
-    //   label: { value: "Coursse" },
-    //   input: {
-    //     type: "text",
-    //     required: true,
-    //     placeholder: "Enter course name"
+      },
+      // {
+      //   type: "text",
+      //   name: "coursse",
+      //   required: true,
+      //   placeholder: "Enter course name"
+      // },
+    ],
+    [
+      {
+        type: "label",
+        value: "Course"
+      },
+      {
+        type: "text",
+        name: "coursee",
+        required: true,
+        placeholder: "Enter course name"
+      },
+    ],
+    // [
+    //   {
+    //     type: "label",
+    //     value: "Topic"
+    //   },
+    //   {
+    //     type: "select",
+    //     name: "topics",
+    //     options: [
+    //       {
+    //         value: "programming",
+    //         text: "Programming"
+    //       },
+    //       {
+    //         value: "database",
+    //         text: "Database"
+    //       }
+    //     ]
     //   }
-    // }
+    // ]
   ];
+  // inputControls: InputControl[] = [
+  //   {
+  //     label: { value: "Course" },
+  //     input: {
+  //       type: "text",
+  //       required: true,
+  //       placeholder: "Enter course name"
+  //     }
+  //   }
+  // ];
 
   title = 'custom-control-task';
 }
