@@ -19,46 +19,66 @@ export class AppComponent {
         name: "course",
         required: true,
         minLength: 3,
+        maxLength: 10,
         placeholder: "Enter course name"
-      },
-      // {
-      //   type: "text",
-      //   name: "coursse",
-      //   required: true,
-      //   placeholder: "Enter course name"
-      // },
+      }
     ],
     [
       {
         type: "label",
-        value: "Course"
+        value: "Email"
       },
       {
-        type: "text",
-        name: "coursee",
-        placeholder: "Enter course name"
+        type: "email",
+        name: "email",
+        placeholder: "Enter your email"
       },
     ],
-    // [
-    //   {
-    //     type: "label",
-    //     value: "Topic"
-    //   },
-    //   {
-    //     type: "select",
-    //     name: "topics",
-    //     options: [
-    //       {
-    //         value: "programming",
-    //         text: "Programming"
-    //       },
-    //       {
-    //         value: "database",
-    //         text: "Database"
-    //       }
-    //     ]
-    //   }
-    // ]
+    [
+      {
+        type: "label",
+        value: "Password"
+      },
+      {
+        type: "password",
+        name: "password",
+        required: true,
+        placeholder: "Password"
+      },
+    ],
+    [
+      {
+        type: "label",
+        value: "Confirm password"
+      },
+      {
+        type: "password",
+        name: "confirm-password",
+        required: true,
+        placeholder: "Confirm Password"
+      },
+    ],
+    [
+      {
+        type: "label",
+        value: "Topic"
+      },
+      {
+        type: "select",
+        name: "topics",
+        required: true,
+        options: [
+          {
+            value: "programming",
+            text: "Programming"
+          },
+          {
+            value: "database",
+            text: "Database"
+          }
+        ]
+      }
+    ]
   ];
   // inputControls: InputControl[] = [
   //   {

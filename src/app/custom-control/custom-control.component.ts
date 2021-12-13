@@ -10,7 +10,6 @@ import { InputControl } from '../models/inputControl';
 })
 export class CustomControlComponent implements OnInit {
 
-  // @Input() controls: InputControl[] = [];
   @Input() controls: Array<Array<any>> = [];
 
   form: FormGroup = new FormGroup({});
@@ -20,45 +19,49 @@ export class CustomControlComponent implements OnInit {
   ngOnInit(): void {
     this.controls.flatMap(arr => arr.filter(obj => obj.type !== 'label' && obj.type !== 'button' ))
     .forEach(input => {
-      console.log(input.minLength)
+      console.log(input.name)
       this.form.registerControl(input.name, new FormControl('', this.validateInputs(input)))
-      //console.log(this.form.get("course")?.valid)
-      // TODO: validation
     });
-    console.log("errors", this.form.controls["course"]?.errors);
   }
 
   remove(index: number) {
     this.controls[index].filter(controls => controls.type !== 'label' && controls.type !== 'button')
     .forEach(input => this.form.removeControl(input.name));
     this.controls.splice(index, 1);
-    console.log(this.form.controls)
   }
 
   add(index: number) {
     this.controls[index].filter(controls => controls.type !== 'label' && controls.type !== 'button')
     .forEach(input => this.form.registerControl(input.name, new FormControl()));
-    // TODO: validation
-    this.controls.push(this.controls[index]); // add the control group to the array
+    this.controls.push(this.controls[index]);
   }
 
-  // forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
-  //   return (control: AbstractControl): ValidationErrors | null => {
-  //     const forbidden = nameRe.test(control.value);
-  //     return forbidden ? {forbiddenName: {value: control.value}} : null;
-  //   };
-  // }
+  validateInputs (input: any) : ValidatorFn[] {
 
-  validateInputs (input: any) : ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if(input.required && !control.value) {
-        return Validators.required;
-      }
-      if(input.minLength && control.value?.length < input.minLength) {
-        return { minlength: { value: control.value } };
-      }
-      return null;
+    let validations: ValidatorFn[] = [];
+
+    if(input.type === "email") {
+      validations.push(Validators.email);
     }
+    if(input.required) {
+      validations.push(Validators.required);
+    }
+    if(input.minLength) {
+      validations.push(Validators.minLength(input.minLength));
+    }
+    if(input.maxLength) {
+      validations.push(Validators.maxLength(input.maxLength));
+    }
+    if(input.name === "confirm-password") {
+      validations.push((control: AbstractControl) : { invalidPassword: boolean } | null => {
+        // control variable refers to confirm-password control
+        let password = this.form.get("password")?.value
+        if(control.value !== password)
+          return { invalidPassword: true }
+        return null;
+      })
+    }
+    return validations;
   }
 
 }

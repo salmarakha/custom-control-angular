@@ -8,37 +8,47 @@
       <label *ngIf="control.type === 'label'">{{ control.value }}</label>
 
       <input
-        *ngIf="control.type === 'text'"
+        *ngIf="['text', 'email', 'button', 'phone', 'password'].includes(control.type)"
         class="form-control"
         [type]="control.type"
         [placeholder]="control.placeholder || ''"
-        [required]="control.required"
-        [formControlName]="control.name" />
-
-        <div *ngIf="form.controls[control.name]?.invalid &&
-            (form.controls[control.name]?.dirty || form.controls[control.name]?.touched)">
-            <span *ngIf="form.controls[control.name]?.errors?.['required']"
-              class="text-danger">
-              Field is required!
-            </span>
-            <span *ngIf="form.controls[control.name]?.errors?.['minlength']"
-              class="text-danger">
-              Minimum Length is {{ control.minLength }} characters.
-            </span>
-        </div>
-
+        [formControlName]="control.name"/>
 
       <select
-        *ngIf="control.type === 'select'"
+        *ngIf="control.type === 'select' && control.options"
         class="form-control"
         [formControlName]="control.name">
-        <!-- <option>-</option> -->
-        <ng-container *ngIf="control.options">
-          <ng-container *ngFor="let option of control.options">
-            <option [value]="option.value">{{ option.text }}</option>
-          </ng-container>
-        </ng-container>
+        <option selected disabled>-</option>
+          <option *ngFor="let option of control.options" [value]="option.value">{{ option.text }}</option>
       </select>
+
+      <div *ngIf="form.controls[control.name]?.invalid &&
+        (form.controls[control.name]?.dirty || form.controls[control.name]?.touched)">
+        <span *ngIf="form.controls[control.name]?.errors?.['required']"
+          class="text-danger">
+          Field is required!
+        </span>
+
+        <span *ngIf="form.controls[control.name]?.errors?.['minlength']"
+          class="text-danger">
+          Minimum Length is {{ control.minLength }} characters.
+        </span>
+
+        <span *ngIf="form.controls[control.name]?.errors?.['maxlength']"
+          class="text-danger">
+          Max Length is {{ control.maxLength }} characters.
+        </span>
+
+        <span *ngIf="form.controls[control.name]?.errors?.['email']"
+          class="text-danger">
+          Invalid email.
+        </span>
+
+        <span *ngIf="form.controls[control.name]?.errors?.['invalidPassword']"
+          class="text-danger">
+          Password does not match.
+        </span>
+      </div>
     </ng-container>
 
     <input type="button" class="btn btn-danger" (click)="remove(i)" [disabled]="controls.length <= 1" value="-">
