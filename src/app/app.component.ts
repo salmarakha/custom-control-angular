@@ -18,6 +18,7 @@ export class AppComponent {
         type: "text",
         name: "course",
         required: true,
+        minLength: 3,
         placeholder: "Enter course name"
       },
       // {
@@ -35,7 +36,6 @@ export class AppComponent {
       {
         type: "text",
         name: "coursee",
-        required: true,
         placeholder: "Enter course name"
       },
     ],

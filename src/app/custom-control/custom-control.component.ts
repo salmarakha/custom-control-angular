@@ -1,6 +1,6 @@
 import { isNgTemplate } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { InputControl } from '../models/inputControl';
 
 @Component({
@@ -15,30 +15,24 @@ export class CustomControlComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
 
-  getFormControlName = (index: number) => {
-    console.log("getFormControlName is called!!");
-    console.log(this.form.value);
-    return Object.keys(this.form.controls)[index];
-  }
-
   constructor() { }
 
   ngOnInit(): void {
     this.controls.flatMap(arr => arr.filter(obj => obj.type !== 'label' && obj.type !== 'button' ))
     .forEach(input => {
-      this.form.registerControl(input.name, new FormControl())
-      // TODO: validation .addValidators()
+      console.log(input.minLength)
+      this.form.registerControl(input.name, new FormControl('', this.validateInputs(input)))
+      //console.log(this.form.get("course")?.valid)
+      // TODO: validation
     });
-  }
-
-  ngAfterViewInit(): void {
-
+    console.log("errors", this.form.controls["course"]?.errors);
   }
 
   remove(index: number) {
     this.controls[index].filter(controls => controls.type !== 'label' && controls.type !== 'button')
     .forEach(input => this.form.removeControl(input.name));
     this.controls.splice(index, 1);
+    console.log(this.form.controls)
   }
 
   add(index: number) {
@@ -46,6 +40,25 @@ export class CustomControlComponent implements OnInit {
     .forEach(input => this.form.registerControl(input.name, new FormControl()));
     // TODO: validation
     this.controls.push(this.controls[index]); // add the control group to the array
+  }
+
+  // forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+  //   return (control: AbstractControl): ValidationErrors | null => {
+  //     const forbidden = nameRe.test(control.value);
+  //     return forbidden ? {forbiddenName: {value: control.value}} : null;
+  //   };
+  // }
+
+  validateInputs (input: any) : ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if(input.required && !control.value) {
+        return Validators.required;
+      }
+      if(input.minLength && control.value?.length < input.minLength) {
+        return { minlength: { value: control.value } };
+      }
+      return null;
+    }
   }
 
 }

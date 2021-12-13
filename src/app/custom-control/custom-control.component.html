@@ -15,6 +15,19 @@
         [required]="control.required"
         [formControlName]="control.name" />
 
+        <div *ngIf="form.controls[control.name]?.invalid &&
+            (form.controls[control.name]?.dirty || form.controls[control.name]?.touched)">
+            <span *ngIf="form.controls[control.name]?.errors?.['required']"
+              class="text-danger">
+              Field is required!
+            </span>
+            <span *ngIf="form.controls[control.name]?.errors?.['minlength']"
+              class="text-danger">
+              Minimum Length is {{ control.minLength }} characters.
+            </span>
+        </div>
+
+
       <select
         *ngIf="control.type === 'select'"
         class="form-control"
