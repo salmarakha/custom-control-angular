@@ -1,4 +1,5 @@
-import { Component, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { AbstractControl, Validators } from '@angular/forms';
 import { InputControl } from './models/inputControl';
 
 @Component({
@@ -7,6 +8,12 @@ import { InputControl } from './models/inputControl';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  validatePassword = (control: AbstractControl) : { invalidPassword: boolean } | null=> {
+    if(control.value !== control.parent?.get('password')?.value)
+      return { invalidPassword: true };
+    return null;
+  }
 
   inputControls = [
     [
@@ -18,10 +25,15 @@ export class AppComponent {
         type: "text",
         name: "course",
         value: "blabla",
-        required: true,
+        // required: true,
         minLength: 3,
         maxLength: 10,
-        placeholder: "Enter course name"
+        placeholder: "Enter course name",
+        validation : [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(10)
+        ]
       }
     ],
     [
@@ -32,21 +44,21 @@ export class AppComponent {
       {
         type: "radio",
         name: "experience",
-        value: "Junior",
+        values: ["Junior", "Mid-level", "Senior"]
         // required: true
       },
-      {
-        type: "radio",
-        name: "experience",
-        value: "Mid-level",
-        // required: true
-      },
-      {
-        type: "radio",
-        name: "experience",
-        value: "Senior",
-        // required: true
-      }
+      // {
+      //   type: "radio",
+      //   name: "experience",
+      //   value: "Mid-level",
+      //   // required: true
+      // },
+      // {
+      //   type: "radio",
+      //   name: "experience",
+      //   value: "Senior",
+      //   // required: true
+      // }
     ],
     [
       {
@@ -56,10 +68,15 @@ export class AppComponent {
       {
         type: "number",
         name: "grade",
-        required: true,
+        // required: true,
         min: 10,
         max: 100,
-        placeholder: "Enter grade"
+        placeholder: "Enter grade",
+        validation : [
+          Validators.required,
+          Validators.min(10),
+          Validators.max(100)
+        ]
       }
     ],
     [
@@ -70,7 +87,11 @@ export class AppComponent {
       {
         type: "email",
         name: "email",
-        placeholder: "Enter your email"
+        placeholder: "Enter your email",
+        validation: [
+          Validators.email,
+          Validators.required
+        ]
       },
     ],
     [
@@ -81,8 +102,11 @@ export class AppComponent {
       {
         type: "password",
         name: "password",
-        required: true,
-        placeholder: "Password"
+        // required: true,
+        placeholder: "Password",
+        validation: [
+          Validators.required
+        ]
       },
     ],
     [
@@ -93,8 +117,12 @@ export class AppComponent {
       {
         type: "password",
         name: "confirm-password",
-        required: true,
-        placeholder: "Confirm Password"
+        // required: true,
+        placeholder: "Confirm Password",
+        validation: [
+          Validators.required,
+          this.validatePassword
+        ]
       },
     ],
     [
@@ -105,7 +133,7 @@ export class AppComponent {
       {
         type: "select",
         name: "topics",
-        required: true,
+        // required: true,
         options: [
           {
             value: "programming",
@@ -115,6 +143,9 @@ export class AppComponent {
             value: "database",
             text: "Database"
           }
+        ],
+        validation: [
+          Validators.required
         ]
       }
     ]

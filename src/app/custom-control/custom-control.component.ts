@@ -19,7 +19,8 @@ export class CustomControlComponent implements OnInit {
   ngOnInit(): void {
     this.controls.flatMap(arr => arr.filter(obj => obj.type !== 'label' && obj.type !== 'button' ))
     .forEach(input => {
-      this.form.addControl(input.name, new FormControl(input.value || '', this.validateInputs(input)))
+      // this.form.addControl(input.name, new FormControl('', this.validateInputs(input)))
+      this.form.addControl(input.name, new FormControl('', input.validation))
     });
   }
 
