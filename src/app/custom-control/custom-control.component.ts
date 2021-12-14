@@ -19,10 +19,13 @@ export class CustomControlComponent implements OnInit {
   ngOnInit(): void {
     this.controls.flatMap(arr => arr.filter(obj => obj.type !== 'label' && obj.type !== 'button' ))
     .forEach(input => {
-      console.log(input.name)
-      this.form.registerControl(input.name, new FormControl('', this.validateInputs(input)))
+      this.form.addControl(input.name, new FormControl(input.value || '', this.validateInputs(input)))
     });
   }
+
+  // ngAfterViewInit(): void {
+  //   console.log(this.form.controls)
+  // }
 
   remove(index: number) {
     this.controls[index].filter(controls => controls.type !== 'label' && controls.type !== 'button')
@@ -52,6 +55,12 @@ export class CustomControlComponent implements OnInit {
     if(input.maxLength) {
       validations.push(Validators.maxLength(input.maxLength));
     }
+    if(input.min) {
+      validations.push(Validators.min(input.min));
+    }
+    if(input.min) {
+      validations.push(Validators.max(input.max));
+    }
     if(input.name === "confirm-password") {
       validations.push((control: AbstractControl) : { invalidPassword: boolean } | null => {
         // control variable refers to confirm-password control
@@ -62,6 +71,10 @@ export class CustomControlComponent implements OnInit {
       })
     }
     return validations;
+  }
+
+  onSubmit() {
+    console.log(this.form.value);
   }
 
 }

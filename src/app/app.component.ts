@@ -17,10 +17,49 @@ export class AppComponent {
       {
         type: "text",
         name: "course",
+        value: "blabla",
         required: true,
         minLength: 3,
         maxLength: 10,
         placeholder: "Enter course name"
+      }
+    ],
+    [
+      {
+        type: "label",
+        value: "Experience Level"
+      },
+      {
+        type: "radio",
+        name: "experience",
+        value: "Junior",
+        // required: true
+      },
+      {
+        type: "radio",
+        name: "experience",
+        value: "Mid-level",
+        // required: true
+      },
+      {
+        type: "radio",
+        name: "experience",
+        value: "Senior",
+        // required: true
+      }
+    ],
+    [
+      {
+        type: "label",
+        value: "Number"
+      },
+      {
+        type: "number",
+        name: "grade",
+        required: true,
+        min: 10,
+        max: 100,
+        placeholder: "Enter grade"
       }
     ],
     [
