@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CustomControlComponent } from './custom-control/custom-control.component';
 import { InputControl } from './models/inputControl';
 
 @Component({
@@ -9,10 +10,12 @@ import { InputControl } from './models/inputControl';
 })
 export class AppComponent {
 
-  form: FormGroup = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    data: new FormControl('')
-  });
+  @ViewChild(CustomControlComponent) customControl: any;
+
+  // form: FormGroup = new FormGroup({
+  //   name: new FormControl('', [Validators.required]),
+  //   data: new FormControl('')
+  // });
 
   validatePassword = (control: AbstractControl) : { invalidPassword: boolean } | null=> {
     if(control.value !== control.parent?.get('password')?.value)
@@ -21,8 +24,11 @@ export class AppComponent {
   }
 
   onSubmit () {
-    console.log("Valid form", this.form.valid);
-    console.log(this.form.value);
+    debugger;
+    // console.log("Valid form", this.form.valid);
+    // console.log(this.form.controls)
+    // console.log(this.form.value);
+    console.log(this.customControl.form.value)
   }
 
   inputControls = [
@@ -46,16 +52,17 @@ export class AppComponent {
         ]
       }
     ],
-    // [
-    //   {
-    //     type: "label",
-    //     value: "Experience Level"
-    //   },
-    //   {
-    //     type: "radio",
-    //     name: "experience",
-    //     values: ["Junior", "Mid-level", "Senior"]
-    //     // required: true
+    [
+      {
+        type: "label",
+        value: "Experience Level"
+      },
+      {
+        type: "radio",
+        name: "experience",
+        values: ["Junior", "Mid-level", "Senior"],
+        validation: []
+        // required: true
     //   },
     //   // {
     //   //   type: "radio",
@@ -68,8 +75,8 @@ export class AppComponent {
     //   //   name: "experience",
     //   //   value: "Senior",
     //   //   // required: true
-    //   // }
-    // ],
+      }
+    ],
     [
       {
         type: "label",

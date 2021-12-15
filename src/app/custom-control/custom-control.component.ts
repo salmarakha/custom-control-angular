@@ -1,52 +1,40 @@
 import { isNgTemplate } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { InputControl } from '../models/inputControl';
 
 @Component({
   selector: 'app-custom-control',
   templateUrl: './custom-control.component.html',
   styleUrls: ['./custom-control.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: CustomControlComponent
-    }
-  ],
 })
-export class CustomControlComponent implements OnInit, ControlValueAccessor {
+export class CustomControlComponent implements OnInit {
 
   @Input() controls: Array<Array<any>> = [];
 
   form: FormGroup = new FormGroup({});
 
-  onChangeSub: Subscription = new Subscription();
-
   constructor() { }
 
-  writeValue(obj: any): void {
-    // throw new Error('Method not implemented.');
-  }
+  addControlErrors(allErrors: any, controlName:string) {
 
-  registerOnChange(onChange: any) {
-    console.log(onChange)
-    const sub = this.form.valueChanges.subscribe(onChange);
-    this.onChangeSub = sub;
-    // this.onChangeSubs.push(sub);
-    console.log(this.onChangeSub);
-  }
+    const errors = {...allErrors};
 
-  registerOnTouched(fn: any): void {
-    // throw new Error('Method not implemented.');
+    const controlErrors = this.form.controls[controlName].errors;
+
+    if (controlErrors) {
+      errors[controlName] = controlErrors;
+    }
+
+    return errors;
   }
 
   ngOnInit(): void {
+    debugger;
     this.controls.flatMap(arr => arr.filter(obj => obj.type !== 'label' && obj.type !== 'button' ))
     .forEach(input => {
       // this.form.addControl(input.name, new FormControl('', this.validateInputs(input)))
-      this.form.addControl(input.name, new FormControl('', input.validation))
+      this.form.addControl(input.name, new FormControl(input.value || '', input.validation))
     });
   }
 
@@ -98,10 +86,6 @@ export class CustomControlComponent implements OnInit, ControlValueAccessor {
       })
     }
     return validations;
-  }
-
-  onSubmit() {
-    console.log("form values", this.form.value);
   }
 
 }

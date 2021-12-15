@@ -1,7 +1,5 @@
 
-<!-- <p>Length of controls array in app {{ controls.length }}</p> -->
-
-<div [formGroup]="form">
+<form [formGroup]="form">
   <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()"> -->
   <div class="form-group" *ngFor="let group of controls, let i = index">
     <ng-container *ngFor="let control of group, let k = index">
@@ -21,13 +19,17 @@
           <input
           class="form-check-input"
           [type]="control.type"
+          [name]="control.name"
           [value]="value"
           [formControlName]="control.name"/>
         <label class="form-check-label">{{ value }}</label>
 
         </div>
-
       </div>
+
+      <!-- <fieldset *ngIf="control.type == 'radio'" [id]="control.name">
+        <input *ngFor="let value of control.values"  [type]="control.type" [value]="value" [formControlName]="control.name">
+      </fieldset> -->
 
       <select
         *ngIf="control.type === 'select' && control.options"
@@ -82,4 +84,4 @@
   </div>
 
   <!-- </form> -->
-</div>
+</form>
