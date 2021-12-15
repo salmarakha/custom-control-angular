@@ -1,6 +1,19 @@
 
 <!-- <p>Length of controls array in app {{ inputControls.length }}</p> -->
-<form>
-  <app-custom-control [controls]="inputControls"></app-custom-control>
-
+<div class="container mt-5" >
+<form [formGroup]="form"  (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label>Name</label>
+    <input type="text"
+    class="form-control"
+    formControlName="name"
+    placeholder="Enter your name" />
+  </div>
+  <app-custom-control
+    [controls]="inputControls"
+    formControlName="data">
+  </app-custom-control>
+  <br/>
+  <input type="submit" class="btn btn-success"/>
 </form>
+</div>

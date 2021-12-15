@@ -1,8 +1,8 @@
 
 <!-- <p>Length of controls array in app {{ controls.length }}</p> -->
 
-<div class="container mt-5">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div [formGroup]="form">
+  <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()"> -->
   <div class="form-group" *ngFor="let group of controls, let i = index">
     <ng-container *ngFor="let control of group, let k = index">
 
@@ -80,6 +80,6 @@
     <input type="button" class="btn btn-primary" (click)="add(i)" value="+">
 
   </div>
-  <input type="submit" />
-</form>
+
+  <!-- </form> -->
 </div>

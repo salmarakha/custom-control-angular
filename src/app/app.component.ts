@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControl, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { InputControl } from './models/inputControl';
 
 @Component({
@@ -9,10 +9,20 @@ import { InputControl } from './models/inputControl';
 })
 export class AppComponent {
 
+  form: FormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    data: new FormControl('')
+  });
+
   validatePassword = (control: AbstractControl) : { invalidPassword: boolean } | null=> {
     if(control.value !== control.parent?.get('password')?.value)
       return { invalidPassword: true };
     return null;
+  }
+
+  onSubmit () {
+    console.log("Valid form", this.form.valid);
+    console.log(this.form.value);
   }
 
   inputControls = [
@@ -36,30 +46,30 @@ export class AppComponent {
         ]
       }
     ],
-    [
-      {
-        type: "label",
-        value: "Experience Level"
-      },
-      {
-        type: "radio",
-        name: "experience",
-        values: ["Junior", "Mid-level", "Senior"]
-        // required: true
-      },
-      // {
-      //   type: "radio",
-      //   name: "experience",
-      //   value: "Mid-level",
-      //   // required: true
-      // },
-      // {
-      //   type: "radio",
-      //   name: "experience",
-      //   value: "Senior",
-      //   // required: true
-      // }
-    ],
+    // [
+    //   {
+    //     type: "label",
+    //     value: "Experience Level"
+    //   },
+    //   {
+    //     type: "radio",
+    //     name: "experience",
+    //     values: ["Junior", "Mid-level", "Senior"]
+    //     // required: true
+    //   },
+    //   // {
+    //   //   type: "radio",
+    //   //   name: "experience",
+    //   //   value: "Mid-level",
+    //   //   // required: true
+    //   // },
+    //   // {
+    //   //   type: "radio",
+    //   //   name: "experience",
+    //   //   value: "Senior",
+    //   //   // required: true
+    //   // }
+    // ],
     [
       {
         type: "label",
@@ -94,37 +104,37 @@ export class AppComponent {
         ]
       },
     ],
-    [
-      {
-        type: "label",
-        value: "Password"
-      },
-      {
-        type: "password",
-        name: "password",
-        // required: true,
-        placeholder: "Password",
-        validation: [
-          Validators.required
-        ]
-      },
-    ],
-    [
-      {
-        type: "label",
-        value: "Confirm password"
-      },
-      {
-        type: "password",
-        name: "confirm-password",
-        // required: true,
-        placeholder: "Confirm Password",
-        validation: [
-          Validators.required,
-          this.validatePassword
-        ]
-      },
-    ],
+    // [
+    //   {
+    //     type: "label",
+    //     value: "Password"
+    //   },
+    //   {
+    //     type: "password",
+    //     name: "password",
+    //     // required: true,
+    //     placeholder: "Password",
+    //     validation: [
+    //       Validators.required
+    //     ]
+    //   },
+    // ],
+    // [
+    //   {
+    //     type: "label",
+    //     value: "Confirm password"
+    //   },
+    //   {
+    //     type: "password",
+    //     name: "confirm-password",
+    //     // required: true,
+    //     placeholder: "Confirm Password",
+    //     validation: [
+    //       Validators.required,
+    //       this.validatePassword
+    //     ]
+    //   },
+    // ],
     [
       {
         type: "label",

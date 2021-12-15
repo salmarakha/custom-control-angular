@@ -1,20 +1,46 @@
 import { isNgTemplate } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { InputControl } from '../models/inputControl';
 
 @Component({
   selector: 'app-custom-control',
   templateUrl: './custom-control.component.html',
-  styleUrls: ['./custom-control.component.css']
+  styleUrls: ['./custom-control.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: CustomControlComponent
+    }
+  ],
 })
-export class CustomControlComponent implements OnInit {
+export class CustomControlComponent implements OnInit, ControlValueAccessor {
 
   @Input() controls: Array<Array<any>> = [];
 
   form: FormGroup = new FormGroup({});
 
+  onChangeSub: Subscription = new Subscription();
+
   constructor() { }
+
+  writeValue(obj: any): void {
+    // throw new Error('Method not implemented.');
+  }
+
+  registerOnChange(onChange: any) {
+    console.log(onChange)
+    const sub = this.form.valueChanges.subscribe(onChange);
+    this.onChangeSub = sub;
+    // this.onChangeSubs.push(sub);
+    console.log(this.onChangeSub);
+  }
+
+  registerOnTouched(fn: any): void {
+    // throw new Error('Method not implemented.');
+  }
 
   ngOnInit(): void {
     this.controls.flatMap(arr => arr.filter(obj => obj.type !== 'label' && obj.type !== 'button' ))
@@ -75,7 +101,7 @@ export class CustomControlComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form.value);
+    console.log("form values", this.form.value);
   }
 
 }
