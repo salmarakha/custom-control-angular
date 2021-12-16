@@ -21,7 +21,7 @@
           [type]="control.type"
           [name]="control.name"
           [value]="value"
-          [formControlName]="control.name"/>
+          (click)="onCheckChange($event)"/>
         <label class="form-check-label">{{ value }}</label>
 
         </div>

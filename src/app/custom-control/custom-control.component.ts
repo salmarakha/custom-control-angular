@@ -57,6 +57,13 @@ export class CustomControlComponent implements OnInit {
     return this.form.value;
   }
 
+  onCheckChange(event: any) {
+    if (event.target.checked) {
+      // add the selected value
+      this.form.controls[event.target.name].setValue(event.target.value);
+    }
+  }
+
   // validateInputs (input: any) : ValidatorFn[] {
 
   //   let validations: ValidatorFn[] = [];
