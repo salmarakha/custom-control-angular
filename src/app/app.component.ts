@@ -10,25 +10,22 @@ import { InputControl } from './models/inputControl';
 })
 export class AppComponent {
 
-  @ViewChild(CustomControlComponent) customControl: any;
+  @ViewChild(CustomControlComponent) customControl: CustomControlComponent | any;
 
-  // form: FormGroup = new FormGroup({
-  //   name: new FormControl('', [Validators.required]),
-  //   data: new FormControl('')
-  // });
+  form: FormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    // data: new FormControl('')
+  });
 
-  validatePassword = (control: AbstractControl) : { invalidPassword: boolean } | null=> {
+  validatePassword = (control: AbstractControl) : { invalidPassword: boolean } | null => {
     if(control.value !== control.parent?.get('password')?.value)
       return { invalidPassword: true };
     return null;
   }
 
   onSubmit () {
-    debugger;
-    // console.log("Valid form", this.form.valid);
-    // console.log(this.form.controls)
-    // console.log(this.form.value);
-    console.log(this.customControl.form.value)
+    console.log(Object.assign(this.form.value, this.customControl.getData()));
+    console.log(this.form.value);
   }
 
   inputControls = [

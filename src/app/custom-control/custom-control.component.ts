@@ -30,7 +30,6 @@ export class CustomControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger;
     this.controls.flatMap(arr => arr.filter(obj => obj.type !== 'label' && obj.type !== 'button' ))
     .forEach(input => {
       // this.form.addControl(input.name, new FormControl('', this.validateInputs(input)))
@@ -54,38 +53,42 @@ export class CustomControlComponent implements OnInit {
     this.controls.push(this.controls[index]);
   }
 
-  validateInputs (input: any) : ValidatorFn[] {
-
-    let validations: ValidatorFn[] = [];
-
-    if(input.type === "email") {
-      validations.push(Validators.email);
-    }
-    if(input.required) {
-      validations.push(Validators.required);
-    }
-    if(input.minLength) {
-      validations.push(Validators.minLength(input.minLength));
-    }
-    if(input.maxLength) {
-      validations.push(Validators.maxLength(input.maxLength));
-    }
-    if(input.min) {
-      validations.push(Validators.min(input.min));
-    }
-    if(input.min) {
-      validations.push(Validators.max(input.max));
-    }
-    if(input.name === "confirm-password") {
-      validations.push((control: AbstractControl) : { invalidPassword: boolean } | null => {
-        // control variable refers to confirm-password control
-        let password = this.form.get("password")?.value
-        if(control.value !== password)
-          return { invalidPassword: true }
-        return null;
-      })
-    }
-    return validations;
+  getData() {
+    return this.form.value;
   }
+
+  // validateInputs (input: any) : ValidatorFn[] {
+
+  //   let validations: ValidatorFn[] = [];
+
+  //   if(input.type === "email") {
+  //     validations.push(Validators.email);
+  //   }
+  //   if(input.required) {
+  //     validations.push(Validators.required);
+  //   }
+  //   if(input.minLength) {
+  //     validations.push(Validators.minLength(input.minLength));
+  //   }
+  //   if(input.maxLength) {
+  //     validations.push(Validators.maxLength(input.maxLength));
+  //   }
+  //   if(input.min) {
+  //     validations.push(Validators.min(input.min));
+  //   }
+  //   if(input.min) {
+  //     validations.push(Validators.max(input.max));
+  //   }
+  //   if(input.name === "confirm-password") {
+  //     validations.push((control: AbstractControl) : { invalidPassword: boolean } | null => {
+  //       // control variable refers to confirm-password control
+  //       let password = this.form.get("password")?.value
+  //       if(control.value !== password)
+  //         return { invalidPassword: true }
+  //       return null;
+  //     })
+  //   }
+  //   return validations;
+  // }
 
 }
